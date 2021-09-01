@@ -34,14 +34,12 @@ class AuthenticationsHandler {
     return response;
   }
 
-  async putAuthenticationHandler(request) {
-    this._validator.validatePutAuthenticationPayload(request.payload);
+  async putAuthenticationHandler({ payload }) {
+    this._validator.validatePutAuthenticationPayload(payload);
 
-    const { refreshToken } = request.payload;
+    await this._authenticationsService.verifyRefreshToken(payload);
 
-    await this._authenticationsService.verifyRefreshToken(refreshToken);
-
-    const { id } = this._tokenManager.verifyRefreshToken(refreshToken);
+    const { id } = this._tokenManager.verifyRefreshToken(payload);
     const accessToken = this._tokenManager.generateAccessToken({ id });
 
     return {
@@ -53,13 +51,11 @@ class AuthenticationsHandler {
     };
   }
 
-  async deleteAuthenticationHandler(request) {
-    this._validator.validateDeleteAuthenticationPayload(request.payload);
+  async deleteAuthenticationHandler({ payload }) {
+    this._validator.validateDeleteAuthenticationPayload(payload);
 
-    const { refreshToken } = request.payload;
-
-    await this._authenticationsService.verifyRefreshToken(refreshToken);
-    await this._authenticationsService.deleteRefreshToken(refreshToken);
+    await this._authenticationsService.verifyRefreshToken(payload);
+    await this._authenticationsService.deleteRefreshToken(payload);
 
     return {
       status: 'success',

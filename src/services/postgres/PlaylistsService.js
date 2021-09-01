@@ -35,8 +35,8 @@ class PlaylistsService {
       values: [user],
     };
 
-    const result = await this._pool.query(query);
-    return result.rows;
+    const { rows } = await this._pool.query(query);
+    return rows;
   }
 
   /** Menghapus playlist */
