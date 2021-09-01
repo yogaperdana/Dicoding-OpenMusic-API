@@ -10,18 +10,16 @@ class CollaborationsService {
 
   /** Menambahkan kolaborator pada playlist */
   async addCollaborator(playlistId, userId) {
-    const id = `collab-${nanoid(16)}`;
+    const collabId = `collab-${nanoid(16)}`;
     const query = {
       text: 'INSERT INTO collaborations VALUES($1, $2, $3) RETURNING id',
-      values: [id, playlistId, userId],
+      values: [collabId, playlistId, userId],
     };
-
     const result = await this._pool.query(query);
     if (!result.rowCount) {
       throw new InvariantError('Kolaborator gagal ditambahkan.');
     }
-    // Hapus dari cache
-    await this._cacheService.delete(`playlists:${playlistId}`);
+    await this._cacheService.delete(`userplaylists:${userId}`);
     return result.rows[0].id;
   }
 
@@ -31,14 +29,12 @@ class CollaborationsService {
       text: 'DELETE FROM collaborations WHERE playlist_id = $1 AND user_id = $2 RETURNING id',
       values: [playlistId, userId],
     };
-
     const result = await this._pool.query(query);
     if (!result.rowCount) {
       throw new InvariantError('Kolaborator gagal dihapus.');
     }
-
-    // Hapus dari cache
-    await this._cacheService.delete(`playlists:${playlistId}`);
+    await this._cacheService.delete(`userplaylists:${userId}`);
+    await this._cacheService.delete(`playlists:${playlistId}`); // Supaya tidak dapat diakses lagi dari cache oleh user terkait
   }
 
   /** Verifikasi kolaborator */
@@ -47,11 +43,20 @@ class CollaborationsService {
       text: 'SELECT * FROM collaborations WHERE playlist_id = $1 AND user_id = $2',
       values: [playlistId, userId],
     };
-
     const result = await this._pool.query(query);
     if (!result.rowCount) {
       throw new InvariantError('Kolaborator gagal diverifikasi.');
     }
+  }
+
+  /** Mendapatkan daftar kolaborator playlist */
+  async getCollaborator(playlistId) {
+    const query = {
+      text: 'SELECT user_id FROM collaborations WHERE playlist_id = $1',
+      values: [playlistId],
+    };
+    const { rows } = await this._pool.query(query);
+    return rows;
   }
 }
 
