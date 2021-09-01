@@ -24,10 +24,8 @@ class UsersHandler {
     return response;
   }
 
-  async getUserByIdHandler(request) {
-    const { id } = request.params;
-
-    const user = await this._service.getUserById(id);
+  async getUserByIdHandler({ params }) {
+    const user = await this._service.getUserById(params);
 
     return {
       status: 'success',
