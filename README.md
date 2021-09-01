@@ -1,4 +1,4 @@
-# OpenMusic API versi 1
+# OpenMusic API versi 2
 
 ![Node 14.17 LTS](https://img.shields.io/badge/Node-14.17_LTS-brightgreen.svg?style=flat-square)
 ![PostgreSQL 13.4](https://img.shields.io/badge/PostgreSQL-13.4-blue.svg?style=flat-square)
@@ -60,7 +60,7 @@ Untuk menjalankan aplikasi pada ***production*** *environment*, ubah _script_ pa
 
 ## Pengujian
 
-Pengujian API dilakukan dengan menggunakan _tools_ [Postman](https://www.postman.com). Berkas _test collection_ dan _environment_ dapat diunduh pada [tautan ini](https://github.com/dicodingacademy/a271-backend-menengah-labs/raw/099-shared-files/03-submission-content/01-open-music-api-v1/OpenMusic%20API%20V1%20Test.zip).
+Pengujian API dilakukan dengan menggunakan _tools_ [Postman](https://www.postman.com). Berkas _test collection_ dan _environment_ dapat diunduh pada [tautan ini](https://github.com/dicodingacademy/a271-backend-menengah-labs/raw/099-shared-files/03-submission-content/02-open-music-api-v2/OpenMusic%20API%20V2%20Test.zip).
 
 ## Hak Cipta dan Lisensi
 
