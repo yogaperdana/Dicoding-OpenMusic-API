@@ -5,9 +5,10 @@ const NotFoundError = require('../../exceptions/NotFoundError');
 const AuthorizationError = require('../../exceptions/AuthorizationError');
 
 class PlaylistsService {
-  constructor(collaborationService) {
+  constructor(collaborationService, cacheService) {
     this._pool = new Pool();
     this._collaborationService = collaborationService;
+    this._cacheService = cacheService;
   }
 
   /** Menambahkan playlist baru */
@@ -64,23 +65,33 @@ class PlaylistsService {
     if (!result.rowCount) {
       throw new InvariantError('Lagu gagal ditambahkan ke playlist.');
     }
+    // Hapus dari cache
+    await this._cacheService.delete(`playlists:${playlistId}`);
     return result.rows[0].id;
   }
 
   /** Mendapatkan daftar lagu pada playlist */
-  async getSongsOnPlaylistById(id) {
-    const query = {
-      text: `SELECT A.id, A.title, A.performer FROM songs A
-      LEFT JOIN playlistsongs B ON B.song_id = A.id
-      WHERE B.playlist_id = $1`,
-      values: [id],
-    };
+  async getSongsOnPlaylistById(playlistId) {
+    try {
+      // Mengambil dari cache
+      const result = await this._cacheService.get(`playlists:${playlistId}`);
+      return JSON.parse(result);
+    } catch (error) {
+      const query = {
+        text: `SELECT A.id, A.title, A.performer FROM songs A
+        LEFT JOIN playlistsongs B ON B.song_id = A.id
+        WHERE B.playlist_id = $1`,
+        values: [playlistId],
+      };
 
-    const result = await this._pool.query(query);
-    if (!result.rowCount) {
-      throw new NotFoundError('Playlist tidak ditemukan.');
+      const result = await this._pool.query(query);
+      if (!result.rowCount) {
+        throw new NotFoundError('Playlist tidak ditemukan.');
+      }
+      // Simpan ke cache
+      await this._cacheService.set(`playlists:${playlistId}`, JSON.stringify(result.rows));
+      return result.rows;
     }
-    return result.rows;
   }
 
   /** Menghapus lagu dari dalam playlist */
@@ -94,6 +105,9 @@ class PlaylistsService {
     if (!result.rowCount) {
       throw new InvariantError('Lagu gagal dihapus dari playlist karena ID tidak ditemukan.');
     }
+
+    // Hapus dari cache
+    await this._cacheService.delete(`playlists:${playlistId}`);
   }
 
   /** Verifikasi pemilik playlist */

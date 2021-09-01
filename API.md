@@ -189,7 +189,6 @@ Respon yang harus dikembalikan:
 
 ---
 
-
 ## Pengguna & Otentikasi
 
 ### Menambahkan Pengguna (_User Register_)
@@ -631,6 +630,82 @@ Ketika pengguna ditambahkan sebagai kolaborator _playlist_ oleh pemilik _playlis
 * Dapat menambahkan lagu ke dalam _playlist_.
 * Dapat menghapus lagu dari _playlist_.
 * Dapat melihat daftar lagu yang ada di _playlist_.
+
+---
+
+## Ekspor Lagu Pada Playlist
+
+Tersedia fitur ekspor lagu pada _playlist_ melalui _route_:
+
+* Method: **POST**
+* URL: `/exports/playlists/{playlistId}`
+* Body Request:
+  ```json
+  {
+    "targetEmail": string
+  }
+  ```
+
+Ketentuan:
+
+* _Payload_ `targetEmail` bernilai email yang valid (bukan sembarang nilai _string_)
+* Pengguna hanya bisa mengekspor _playlist_ yang menjadi haknya sebagai pemilik atau kolaborator _playlist_.
+* Menggunakan _message broker_ dengan menggunakan **RabbitMQ**.
+* Nilai _host server_ RabbitMQ menggunakan _environment variabel_ `RABBITMQ_SERVER`.
+* Hasil ekspor berupa data json dan dikirimkan melalui email menggunakan **nodemailer**.
+* Kredensial alamat dan password email pengirim wajib menggunakan _environment variable_ `MAIL_ADDRESS` dan `MAIL_PASSWORD`.
+
+Respon yang harus dikembalikan:
+
+* Status Code: **201**
+* Response Body:
+  ```json
+  {
+    "status": "success",
+    "message": "Permintaan Anda sedang kami proses",
+  }
+  ```
+
+## Unggah Gambar
+
+Terdapat fitur mengunggah gambar melalui _route_:
+
+* Method: **POST**
+* URL: `/upload/pictures`
+* Body Request (_form data_):
+  ```json
+  {
+    "data": file
+  }
+  ```
+
+Ketentuan:
+
+* Tipe konten yang diunggah harus merupakan MIME types dari images.
+* Ukuran file gambar maksimal 500KB.
+* Anda bisa menggunakan _File System_ (lokal) atau S3 Bucket dalam menampung _object_.
+* Bila menggunakan S3 Bucket, nama _bucket_ wajib menggunakan _variable environment_ `AWS_BUCKET_NAME`.
+
+Response yang harus dikembalikan:
+
+* Status Code: **201**
+* Response Body:
+  ```json
+  {
+    "status": "success",
+    "message": "Gambar berhasil diunggah",
+    "data": {
+      "pictureUrl": "http://..."
+    }
+  }
+  ```
+
+## _Server-Side Cache_
+
+* _Server-side cache_ diterapkan pada _resource_ **GET playlists/{playlistId}/songs** (mendapatkan daftar lagu pada _playlist_).
+* _Cache_ harus selalu dihapus ketika ada lagu yang dimasukkan atau dihapus dari _playlist_ tersebut.
+* _Memory caching engine_ menggunakan **Redis** atau **Memurai** (Windows).
+* Nilai _host server_ Redis menggunakan _environment variable_ `REDIS_SERVER`.
 
 ---
 

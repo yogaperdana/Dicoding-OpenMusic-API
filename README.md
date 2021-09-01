@@ -1,4 +1,4 @@
-# OpenMusic API versi 2
+# OpenMusic API versi 3
 
 ![Node 14.17 LTS](https://img.shields.io/badge/Node-14.17_LTS-brightgreen.svg?style=flat-square)
 ![PostgreSQL 13.4](https://img.shields.io/badge/PostgreSQL-13.4-blue.svg?style=flat-square)
@@ -22,10 +22,22 @@ Repositori proyek untuk submisi tugas kelas [Belajar Fundamental Aplikasi Back-E
   - `PGHOST` : menyimpan nilai _host_ yang digunakan oleh database.
   - `PGPORT` :  menyimpan nilai _port_ yang digunakan oleh database.
 - Menggunakan package [dotenv](npmjs.com/package/dotenv) serta berkas `.env` dalam mengelola _environment variable_.
+- Menerapkan _server-side caching_ pada _resource_ yang diperlukan.
 
 ## Kriteria API
 
 Dokumentasi kriteria API dapat dilihat di berkas [API.md](./API.md)
+
+## Program Konsumer
+
+Pada aplikasi versi 3 ini terdapat fitur _message broker_. Diperlukan sebuah proses aplikasi terpisah sebagai _consumer_ untuk mengambil pesan yang masih berada di _queue_ lalu meneruskannya ke email yang dituju menggunakan [Nodemailer](nodemailer.com). Repositori dan dokumentasi program konsumer dapat dilihat pada repositori [dicoding-openmusic-consumer](github.com/yogaperdana/dicoding-openmusic-consumer).
+
+## Aplikasi Tambahan
+
+Pada aplikasi versi 3 ini terdapat fitur tambahan yang memerlukan perangkat lunak tambahan untuk menjalankannya. Install aplikasi berikut pada PC sebelum menggunakan API:
+
+- [RabbitMQ](rabbitmq.com/download.html) untuk _Message Broker_
+- [Redis](redis.io/download)/[Memurai](memurai.com/get-memurai) untuk _Server-Side Caching_
 
 ## Menjalankan Aplikasi
 
@@ -60,7 +72,9 @@ Untuk menjalankan aplikasi pada ***production*** *environment*, ubah _script_ pa
 
 ## Pengujian
 
-Pengujian API dilakukan dengan menggunakan _tools_ [Postman](https://www.postman.com). Berkas _test collection_ dan _environment_ dapat diunduh pada [tautan ini](https://github.com/dicodingacademy/a271-backend-menengah-labs/raw/099-shared-files/03-submission-content/02-open-music-api-v2/OpenMusic%20API%20V2%20Test.zip).
+Pengujian API dilakukan dengan menggunakan _tools_ [Postman](https://www.postman.com). Berkas _test collection_ dan _environment_ dapat diunduh pada [tautan ini](https://github.com/dicodingacademy/a271-backend-menengah-labs/raw/099-shared-files/03-submission-content/03-open-music-api-v3/OpenMusic%20API%20V3%20Test.zip).
+
+Untuk pengujian _upload files_ perlu dilakukan secara manual (tidak bisa secara otomasi). Pastikan juga untuk menyesuaikan _environment variables_ yang ada di Postman.
 
 ## Hak Cipta dan Lisensi
 
