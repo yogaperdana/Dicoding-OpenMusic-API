@@ -1,37 +1,30 @@
 {
-  "name": "openmusic-api",
-  "version": "3.0.0",
-  "description": "OpenMusic API",
+  "name": "openmusic-queue-consumer",
+  "version": "1.0.0",
+  "description": "Message Broker - Queue Consumer for OpenMusic API",
   "main": "index.js",
   "scripts": {
-    "start-prod": "NODE_ENV=production node ./src/server.js",
-    "start-dev": "nodemon ./src/server.js",
-    "lint": "eslint ./src/",
-    "migrate": "node-pg-migrate"
+    "start-dev": "nodemon ./src/consumer.js",
+    "lint": "eslint ./src/"
   },
   "keywords": [
-    "openmusic"
+    "openmusic",
+    "message_broker",
+    "queue",
+    "consumer"
   ],
   "author": "Yoga Perdana Putra",
   "license": "ISC",
   "devDependencies": {
     "eslint": "^7.32.0",
     "eslint-config-airbnb-base": "^14.2.1",
-    "eslint-plugin-import": "^2.24.1",
+    "eslint-plugin-import": "^2.24.2",
     "nodemon": "^2.0.12"
   },
   "dependencies": {
-    "@hapi/hapi": "^20.1.5",
-    "@hapi/inert": "^6.0.3",
-    "@hapi/jwt": "^2.1.0",
     "amqplib": "^0.8.0",
-    "aws-sdk": "^2.975.0",
-    "bcrypt": "^5.0.1",
     "dotenv": "^10.0.0",
-    "joi": "^17.4.2",
-    "nanoid": "^3.1.25",
-    "node-pg-migrate": "^5.10.0",
-    "pg": "^8.7.1",
-    "redis": "^3.1.2"
+    "nodemailer": "^6.6.3",
+    "pg": "^8.7.1"
   }
 }
