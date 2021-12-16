@@ -1,10 +1,13 @@
 # OpenMusic API versi 3
 
-![Node 14.17 LTS](https://img.shields.io/badge/Node-14.17_LTS-brightgreen.svg?style=flat-square)
-![PostgreSQL 13.4](https://img.shields.io/badge/PostgreSQL-13.4-blue.svg?style=flat-square)
-![Hapi 20.1.5](https://img.shields.io/badge/Hapi-20.1.5-orange.svg?style=flat-square)
+[![Node 17.2.0](https://img.shields.io/badge/Node-17.2.0-brightgreen.svg?style=flat-square)](https://nodejs.org/en/download/)
+[![PostgreSQL 14.1](https://img.shields.io/badge/PostgreSQL-14.1-blue.svg?style=flat-square)](https://www.postgresql.org/download/)
+[![Hapi 20.2.1](https://img.shields.io/badge/Hapi-20.2.1-orange.svg?style=flat-square)](https://hapi.dev)
+[![Node-Redis 4.0.1](https://img.shields.io/badge/Node--Redis-4.0.1-red.svg?style=flat-square)](https://github.com/redis/node-redis)
 
 Repositori proyek untuk submisi tugas kelas [Belajar Fundamental Aplikasi Back-End](https://dicoding.com/academies/271) pada platform [Dicoding Academy](https://dicoding.com)
+
+Dikerjakan oleh [Yoga Perdana Putra](https://github.com/yogaperdana)
 
 ## Kriteria Project
 

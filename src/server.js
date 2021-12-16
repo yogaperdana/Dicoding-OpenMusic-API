@@ -166,7 +166,7 @@ const init = async () => {
 
   await server.start();
   console.log(
-    `\n\x1b[36mServer \x1b[1mOpenMusic API\x1b[0m\x1b[36m sedang berjalan pada ${server.info.uri}\x1b[0m\n`,
+    `\n\x1b[36m\x1b[1mOpenMusic API\x1b[0m\x1b[36m server is running on ${server.info.uri}\x1b[0m\n`,
   );
 };
 
